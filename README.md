@@ -3,6 +3,7 @@
 A collection of production-ready cookiecutter templates for Kubernetes application deployment using both Helm and Kustomize.
 
 **Repository**: [https://github.com/dxas90/cookiecutter-templates.git](https://github.com/dxas90/cookiecutter-templates.git)
+**Shorthand**: `gh:dxas90/cookiecutter-templates`
 
 ## Overview
 
@@ -30,6 +31,18 @@ pip install cookiecutter
 pipx install cookiecutter
 ```
 
+### Repository Access
+
+All examples in this documentation use the GitHub shorthand syntax:
+```bash
+gh:dxas90/cookiecutter-templates
+```
+
+This is equivalent to:
+```bash
+https://github.com/dxas90/cookiecutter-templates.git
+```
+
 ## Templates
 
 ### 🎡 Helm Chart Template
@@ -47,12 +60,12 @@ Located in `k8s/chart/`
 **Quick Start:**
 ```bash
 # Generate a new Helm chart
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input \
   chart_name=my-app \
   image_repository=my-registry/my-app
 
 # With environment file
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input \
   env_file_path=my-app.env
 ```
 
@@ -71,12 +84,12 @@ Located in `k8s/kustomize/`
 **Quick Start:**
 ```bash
 # Generate a new Kustomize configuration
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input \
   app_name=my-app \
   image_repository=my-registry/my-app
 
 # With environment file
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input \
   env_file_path=my-app.env
 ```
 
@@ -179,7 +192,7 @@ To use HTTPRoute features, your cluster needs:
 
 1. **Gateway API CRDs**:
    ```bash
-   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
+   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/standard-install.yaml
    ```
 
 2. **Gateway controller** (choose one):
@@ -232,17 +245,17 @@ curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack
 
 ```bash
 # Helm chart
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart
 
 # Kustomize
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize
 ```
 
 ### Non-interactive with Custom Values
 
 ```bash
 # Helm chart
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input \
   chart_name=my-web-app \
   image_repository=myorg/web-app \
   image_tag=v1.2.3 \
@@ -250,7 +263,7 @@ cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8
   autoscaling_enabled=true
 
 # Kustomize
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input \
   app_name=my-web-app \
   image_repository=myorg/web-app \
   image_tag=v1.2.3 \
@@ -283,10 +296,10 @@ LOG_LEVEL=info
 EOF
 
 # Helm
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input env_file_path=web-app.env
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input env_file_path=web-app.env
 
 # Kustomize
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize --no-input env_file_path=web-app.env
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input env_file_path=web-app.env
 ```
 
 ## Deployment
@@ -295,7 +308,7 @@ cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8
 
 ```bash
 # Generate chart
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input chart_name=my-app
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input chart_name=my-app
 
 # Deploy
 helm install my-app ./my-app
@@ -311,7 +324,7 @@ helm rollback my-app 1
 
 ```bash
 # Generate configuration
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize --no-input app_name=my-app
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input app_name=my-app
 
 # Deploy to environments
 kubectl apply -k my-app/overlays/dev

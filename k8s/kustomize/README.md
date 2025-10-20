@@ -3,6 +3,7 @@
 This cookiecutter template generates a comprehensive Kustomize configuration for Kubernetes applications with multi-environment support and best practices built-in.
 
 **Repository**: [https://github.com/dxas90/cookiecutter-templates.git](https://github.com/dxas90/cookiecutter-templates.git)
+**Shorthand**: `gh:dxas90/cookiecutter-templates --directory=k8s/kustomize`
 
 ## Features
 
@@ -25,7 +26,7 @@ This cookiecutter template generates a comprehensive Kustomize configuration for
 pip install cookiecutter
 
 # Install Gateway API CRDs
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/standard-install.yaml
 ```
 
 ### Gateway API Requirements
@@ -41,13 +42,13 @@ This template uses HTTPRoute from the Kubernetes Gateway API. You need:
 
 ```bash
 # Interactive mode
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize
 
 # Non-interactive with defaults
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize --no-input
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input
 
 # With custom values
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input \
   app_name=my-app \
   image_repository=my-registry/my-app \
   httproute_enabled=true \
@@ -80,7 +81,7 @@ DEBUG=false
 EOF
 
 # Generate with environment file
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize --no-input env_file_path=my-app.env
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input env_file_path=my-app.env
 ```
 
 Environment variables are automatically classified:

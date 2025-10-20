@@ -101,7 +101,7 @@ Successfully migrated both Helm and Kustomize templates from traditional Ingress
 ### Required Infrastructure:
 1. **Gateway API CRDs installed**:
    ```bash
-   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
+   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/standard-install.yaml
    ```
 
 2. **Gateway controller** (one of):
@@ -158,13 +158,13 @@ Successfully migrated both Helm and Kustomize templates from traditional Ingress
 ### Generate with HTTPRoute enabled:
 ```bash
 # Helm
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input \
   chart_name=my-app \
   httproute_enabled=true \
   httproute_hostname=my-app.example.com
 
 # Kustomize
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/kustomize --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input \
   app_name=my-app \
   httproute_enabled=true \
   httproute_hostname=my-app.example.com

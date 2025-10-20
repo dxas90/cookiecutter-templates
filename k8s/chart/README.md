@@ -3,6 +3,7 @@
 This cookiecutter template generates a production-ready Helm chart with comprehensive Kubernetes resource definitions and optional testing capabilities.
 
 **Repository**: [https://github.com/dxas90/cookiecutter-templates.git](https://github.com/dxas90/cookiecutter-templates.git)
+**Shorthand**: `gh:dxas90/cookiecutter-templates --directory=k8s/chart`
 
 ## Features
 
@@ -20,13 +21,13 @@ This cookiecutter template generates a production-ready Helm chart with comprehe
 
 ```bash
 # Interactive mode
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart
 
 # Non-interactive with defaults
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input --output-dir generated
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input --output-dir generated
 
 # With custom values
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input \
   chart_name=my-app \
   image_repository=my-registry/my-app \
   httproute_enabled=true
@@ -46,7 +47,7 @@ LOG_LEVEL=info
 EOF
 
 # Generate chart with environment file
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input \
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input \
   env_file_path=my-app.env \
   chart_name=my-app
 ```
@@ -86,7 +87,7 @@ This template uses HTTPRoute from the Kubernetes Gateway API instead of traditio
 
 1. **Gateway API CRDs installed** in your cluster:
    ```bash
-   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
+   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/standard-install.yaml
    ```
 
 2. **A Gateway controller** (e.g., Istio, Envoy Gateway, NGINX Gateway, etc.)
@@ -122,7 +123,7 @@ helm plugin install https://github.com/helm-unittest/helm-unittest || true
 
 ```bash
 # Generate a chart first
-cookiecutter https://github.com/dxas90/cookiecutter-templates.git --directory=k8s/chart --no-input --output-dir generated
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input --output-dir generated
 
 # Run tests
 CHART_DIR=$(ls -d generated/* | head -n1)
