@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+{% if cookiecutter.persistence_enabled == 'true' -%}
+  - ./pvc.yaml
+{% endif -%}
+  - ./configmap.yaml
+{% if cookiecutter.httproute_enabled == 'true' -%}
+  - ./httproute.yaml
+{% endif -%}
+  - ./deployment.yaml
+{% if cookiecutter.poddisruptionbudget_enabled == 'true' -%}
+  - ./poddisruptionbudget.yaml
+{% endif -%}
+  - ./service.yaml
+{% if cookiecutter.serviceaccount_enabled == 'true' -%}
+  - ./serviceaccount.yaml
+{% endif -%}
+{% if cookiecutter.autoscaling_enabled == 'true' -%}
+  - ./hpa.yaml
+{% endif -%}
+  - ./secret.yaml
+{% if cookiecutter.networkpolicy_enabled == 'true' -%}
+  - ./networkpolicy.yaml
+{% endif -%}

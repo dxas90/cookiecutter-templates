@@ -1,0 +1,18 @@
+{% if cookiecutter.persistence_enabled == 'true' %}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ cookiecutter.app_name }}
+  labels:
+    app: {{ cookiecutter.app_label }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ cookiecutter.persistence_capacity }}
+{% if cookiecutter.persistence_storageClass %}
+  storageClassName: {{ cookiecutter.persistence_storageClass }}
+{% endif %}
+status: {}
+{% endif %}

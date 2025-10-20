@@ -1,0 +1,65 @@
+{
+  "app_name": "learn",
+  "app_version": "v0.0.12",
+  "description": "Kustomize configuration for learning",
+
+  "replicaCount": 1,
+
+  "image_repository": "dxas90/learn",
+  "image_pullPolicy": "IfNotPresent",
+  "image_tag": "latest",
+
+  "service_type": "ClusterIP",
+  "service_port": 8080,
+  "container_port": 8080,
+
+  "namespace": "default",
+
+  "httproute_enabled": false,
+  "httproute_gateway_name": "gateway",
+  "httproute_gateway_namespace": "gateway-system",
+  "httproute_hostname": "example.local",
+
+  "persistence_enabled": true,
+  "persistence_capacity": "8Mi",
+  "persistence_storageClass": "",
+
+  "autoscaling_enabled": false,
+  "autoscaling_minReplicas": 1,
+  "autoscaling_maxReplicas": 100,
+  "autoscaling_targetCPUUtilizationPercentage": 80,
+
+  "resources_limits_cpu": "25m",
+  "resources_limits_memory": "263M",
+  "resources_requests_cpu": "25m",
+  "resources_requests_memory": "263M",
+
+  "init_container_enabled": true,
+  "init_container_image": "busybox",
+  "init_container_resources_limits_cpu": "5m",
+  "init_container_resources_limits_memory": "16Mi",
+  "init_container_resources_requests_cpu": "5m",
+  "init_container_resources_requests_memory": "16Mi",
+
+  "networkpolicy_enabled": true,
+  "poddisruptionbudget_enabled": true,
+  "serviceaccount_enabled": true,
+
+  "app_label": "gitops-k8s",
+  "owner_label": "gitops",
+  "team_label": "DevOps",
+
+  "healthcheck_enabled": true,
+  "healthcheck_path": "/healthz",
+  "healthcheck_port": "web",
+  "healthcheck_initialDelaySeconds": 3,
+  "healthcheck_timeoutSeconds": 2,
+  "healthcheck_failureThreshold": 5,
+
+  "security_fsGroup": 65534,
+  "security_runAsNonRoot": true,
+
+  "env_file_path": "",
+
+  "create_overlays": ["dev", "staging", "prod"]
+}

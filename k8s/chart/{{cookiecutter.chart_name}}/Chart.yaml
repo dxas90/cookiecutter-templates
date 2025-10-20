@@ -1,0 +1,8 @@
+apiVersion: v2
+name: "{{ cookiecutter.chart_name }}"
+description: "{{ cookiecutter.description }}"
+type: application
+version: "{{ cookiecutter.chart_version }}"
+appVersion: "{{ cookiecutter.app_version }}"
+maintainers:
+  - name: "{{ cookiecutter.maintainer_name }} <{{ cookiecutter.maintainer_email }}>"

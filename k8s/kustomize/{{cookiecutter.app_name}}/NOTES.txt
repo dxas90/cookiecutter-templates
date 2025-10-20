@@ -1,0 +1,128 @@
+# {{ cookiecutter.app_name }} Kustomize Configuration
+
+Your Kustomize configuration has been generated successfully!
+
+## Generated Structure
+
+```
+{{ cookiecutter.app_name }}/
+├── kustomization.yaml          # Main Kustomize configuration
+├── base/                       # Base Kubernetes manifests
+│   ├── kustomization.yaml     # Base resource list
+│   ├── deployment.yaml        # Application deployment
+│   ├── service.yaml           # Service definition
+│   ├── configmap.yaml         # Configuration data
+│   ├── secret.yaml            # Secret data
+{% if cookiecutter.serviceaccount_enabled == 'true' %}│   ├── serviceaccount.yaml    # Service account
+{% endif %}{% if cookiecutter.persistence_enabled == 'true' %}│   ├── pvc.yaml               # Persistent volume claim
+{% endif %}{% if cookiecutter.httproute_enabled == 'true' %}│   ├── httproute.yaml         # HTTPRoute configuration
+{% endif %}{% if cookiecutter.autoscaling_enabled == 'true' %}│   ├── hpa.yaml               # Horizontal Pod Autoscaler
+{% endif %}{% if cookiecutter.networkpolicy_enabled == 'true' %}│   ├── networkpolicy.yaml     # Network policies
+{% endif %}{% if cookiecutter.poddisruptionbudget_enabled == 'true' %}│   └── poddisruptionbudget.yaml # Pod disruption budget
+{% endif %}└── overlays/                   # Environment-specific overrides
+    ├── dev/                   # Development environment
+    │   ├── kustomization.yaml
+    │   ├── deployment-patch.yaml
+{% if cookiecutter.httproute_enabled == 'true' %}    │   └── httproute-patch.yaml
+{% endif %}    ├── staging/               # Staging environment
+    │   ├── kustomization.yaml
+    │   ├── deployment-patch.yaml
+{% if cookiecutter.httproute_enabled == 'true' %}    │   └── httproute-patch.yaml
+{% endif %}    └── prod/                  # Production environment
+        ├── kustomization.yaml
+        ├── deployment-patch.yaml
+{% if cookiecutter.httproute_enabled == 'true' %}        └── httproute-patch.yaml
+{% endif %}```
+
+## Quick Start
+
+1. **Deploy to development:**
+   ```bash
+   kubectl apply -k overlays/dev
+   ```
+
+2. **Deploy to staging:**
+   ```bash
+   kubectl apply -k overlays/staging
+   ```
+
+3. **Deploy to production:**
+   ```bash
+   kubectl apply -k overlays/prod
+   ```
+
+## Configuration
+
+### Environment Variables
+- Edit `base/configmap.yaml` to add application configuration
+- Edit `base/secret.yaml` to add sensitive data
+
+### Resources
+- Modify resource limits in overlay deployment patches
+- Adjust replica counts per environment
+
+### HTTPRoute
+{% if cookiecutter.httproute_enabled == 'true' %}- Default hostname: {{ cookiecutter.httproute_hostname }}
+- Development: {{ cookiecutter.app_name }}-dev.{{ cookiecutter.httproute_hostname }}
+- Staging: {{ cookiecutter.app_name }}-staging.{{ cookiecutter.httproute_hostname }}
+- Production: {{ cookiecutter.httproute_hostname }}
+- Gateway: {{ cookiecutter.httproute_gateway_name }} ({{ cookiecutter.httproute_gateway_namespace }})
+{% else %}HTTPRoute is disabled. Enable it by setting httproute_enabled=true{% endif %}
+
+### Persistence
+{% if cookiecutter.persistence_enabled == 'true' %}- Storage capacity: {{ cookiecutter.persistence_capacity }}
+{% if cookiecutter.persistence_storageClass %}- Storage class: {{ cookiecutter.persistence_storageClass }}
+{% endif %}{% else %}Persistence is disabled. Enable it by setting persistence_enabled=true{% endif %}
+
+### Autoscaling
+{% if cookiecutter.autoscaling_enabled == 'true' %}- Min replicas: {{ cookiecutter.autoscaling_minReplicas }}
+- Max replicas: {{ cookiecutter.autoscaling_maxReplicas }}
+- Target CPU: {{ cookiecutter.autoscaling_targetCPUUtilizationPercentage }}%
+{% else %}Autoscaling is disabled. Enable it by setting autoscaling_enabled=true{% endif %}
+
+## Customization
+
+1. **Add new resources:**
+   - Create new YAML files in `base/`
+   - Add them to `base/kustomization.yaml`
+
+2. **Environment-specific changes:**
+   - Create patches in overlay directories
+   - Add them to overlay `kustomization.yaml`
+
+3. **New environments:**
+   - Create new overlay directory
+   - Copy and modify existing overlay files
+
+## Validation
+
+Test your configuration:
+```bash
+# Validate syntax
+kustomize build overlays/dev
+
+# View resources without applying
+kubectl kustomize overlays/dev
+
+# Dry run
+kubectl apply -k overlays/dev --dry-run=client
+```
+
+## Next Steps
+
+1. Customize ConfigMap and Secret with your application data
+2. Adjust resource limits based on your application needs
+3. Configure HTTPRoute hostnames and Gateway references
+4. Set up monitoring and logging
+5. Add health checks and readiness probes
+6. Configure backup and disaster recovery
+
+## Application Details
+
+- **Name:** {{ cookiecutter.app_name }}
+- **Version:** {{ cookiecutter.app_version }}
+- **Image:** {{ cookiecutter.image_repository }}:{{ cookiecutter.image_tag }}
+- **Port:** {{ cookiecutter.container_port }}
+- **Replicas:** {{ cookiecutter.replicaCount }}
+
+Happy deploying! 🚀

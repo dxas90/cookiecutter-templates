@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ cookiecutter.app_name }}
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: {{ cookiecutter.app_name }}
+          env:
+            - name: ENVIRONMENT
+              value: "staging"
+            - name: LOG_LEVEL
+              value: "info"
+          resources:
+            limits:
+              cpu: {{ cookiecutter.resources_limits_cpu }}
+              memory: {{ cookiecutter.resources_limits_memory }}
+            requests:
+              cpu: {{ cookiecutter.resources_requests_cpu }}
+              memory: {{ cookiecutter.resources_requests_memory }}

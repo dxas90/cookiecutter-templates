@@ -1,0 +1,84 @@
+replicaCount: {{ cookiecutter.replicaCount }}
+
+image:
+  repository: "{{ cookiecutter.image_repository }}"
+  pullPolicy: "{{ cookiecutter.image_pullPolicy }}"
+  tag: "{{ cookiecutter.image_tag }}"
+
+service:
+  type: "{{ cookiecutter.service_type }}"
+  port: {{ cookiecutter.service_port }}
+
+namespace: "{{ cookiecutter.namespace }}"
+
+httproute:
+  enabled: {{ cookiecutter.httproute_enabled }}
+  gatewayName: "{{ cookiecutter.httproute_gateway_name }}"
+  gatewayNamespace: "{{ cookiecutter.httproute_gateway_namespace }}"
+  hostnames:
+    - "{{ cookiecutter.httproute_hostname }}"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - port: {{ cookiecutter.service_port }}
+
+persistence:
+  enabled: {{ cookiecutter.persistence_enabled }}
+  capacity: "{{ cookiecutter.persistence_capacity }}"
+
+autoscaling:
+  enabled: {{ cookiecutter.autoscaling_enabled }}
+  minReplicas: {{ cookiecutter.autoscaling_minReplicas }}
+  maxReplicas: {{ cookiecutter.autoscaling_maxReplicas }}
+
+resources:
+  limits:
+    cpu: {{ cookiecutter.resources_limits_cpu }}
+    memory: {{ cookiecutter.resources_limits_memory }}
+  requests:
+    cpu: {{ cookiecutter.resources_requests_cpu }}
+    memory: {{ cookiecutter.resources_requests_memory }}
+
+chart:
+  label: "{{ cookiecutter.chart_label }}"
+
+# Environment configuration
+env:
+  # Environment variables from file will be loaded here during chart generation
+  # if env_file_path is provided in cookiecutter.json
+  variables: {}
+
+# Other values from the original chart are intentionally left as defaults.
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podSecurityContext:
+  fsGroup: 65534
+
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 3
+  periodSeconds: 3
+  failureThreshold: 2
+
+readinessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10

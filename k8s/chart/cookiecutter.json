@@ -1,0 +1,41 @@
+{
+  "chart_name": "learn",
+  "chart_version": "0.1.0",
+  "app_version": "v0.0.12",
+  "description": "Helm chart for learning",
+
+  "maintainer_name": "Your Name",
+  "maintainer_email": "you@example.com",
+
+  "replicaCount": 1,
+
+  "image_repository": "dxas90/learn",
+  "image_pullPolicy": "IfNotPresent",
+  "image_tag": "latest",
+
+  "service_type": "ClusterIP",
+  "service_port": 8080,
+
+  "namespace": "default",
+
+  "httproute_enabled": false,
+  "httproute_gateway_name": "gateway",
+  "httproute_gateway_namespace": "gateway-system",
+  "httproute_hostname": "example.local",
+
+  "persistence_enabled": false,
+  "persistence_capacity": "8Mi",
+
+  "autoscaling_enabled": false,
+  "autoscaling_minReplicas": 1,
+  "autoscaling_maxReplicas": 100,
+
+  "resources_limits_cpu": "1m",
+  "resources_limits_memory": "56Mi",
+  "resources_requests_cpu": "1m",
+  "resources_requests_memory": "56Mi",
+
+  "chart_label": "learn-chart",
+
+  "env_file_path": ""
+}

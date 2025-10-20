@@ -1,0 +1,130 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ cookiecutter.app_name }}
+  labels:
+    app: {{ cookiecutter.app_label }}
+spec:
+  replicas: {{ cookiecutter.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ cookiecutter.app_label }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 2
+  template:
+    metadata:
+      labels:
+        app: {{ cookiecutter.app_label }}
+    spec:
+{% if cookiecutter.init_container_enabled == 'true' %}
+      initContainers:
+        - name: pull-secrets
+          image: "{{ cookiecutter.init_container_image }}"
+          imagePullPolicy: {{ cookiecutter.image_pullPolicy }}
+          command:
+            - "busybox"
+          args:
+            - "wget"
+            - "-O"
+            - "/secrets/ultrasecret.json"
+            - "http://httpbin.org/get?key=secret"
+          env:
+            - name: MY_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          envFrom:
+            - configMapRef:
+                name: {{ cookiecutter.app_name }}-config
+          resources:
+            limits:
+              cpu: {{ cookiecutter.init_container_resources_limits_cpu }}
+              memory: {{ cookiecutter.init_container_resources_limits_memory }}
+            requests:
+              cpu: {{ cookiecutter.init_container_resources_requests_cpu }}
+              memory: {{ cookiecutter.init_container_resources_requests_memory }}
+          volumeMounts:
+            - mountPath: /secrets
+              name: secrets
+{% endif %}
+      containers:
+        - name: {{ cookiecutter.app_name }}
+          env:
+            - name: MY_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: USER
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          envFrom:
+            - configMapRef:
+                name: {{ cookiecutter.app_name }}-config
+            - secretRef:
+                name: {{ cookiecutter.app_name }}-secret
+          image: {{ cookiecutter.image_repository }}:{{ cookiecutter.image_tag }}
+          imagePullPolicy: {{ cookiecutter.image_pullPolicy }}
+          ports:
+            - name: web
+              containerPort: {{ cookiecutter.container_port }}
+              protocol: TCP
+          resources:
+            limits:
+              cpu: {{ cookiecutter.resources_limits_cpu }}
+              memory: {{ cookiecutter.resources_limits_memory }}
+            requests:
+              cpu: {{ cookiecutter.resources_requests_cpu }}
+              memory: {{ cookiecutter.resources_requests_memory }}
+{% if cookiecutter.healthcheck_enabled == 'true' %}
+          readinessProbe:
+            httpGet:
+              path: {{ cookiecutter.healthcheck_path }}
+              port: {{ cookiecutter.healthcheck_port }}
+            initialDelaySeconds: {{ cookiecutter.healthcheck_initialDelaySeconds }}
+            timeoutSeconds: {{ cookiecutter.healthcheck_timeoutSeconds }}
+            failureThreshold: {{ cookiecutter.healthcheck_failureThreshold }}
+{% endif %}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+{% if cookiecutter.persistence_enabled == 'true' %}
+            - mountPath: /secrets
+              name: secrets
+{% endif %}
+            - mountPath: /cache
+              name: cache-volume
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext:
+        fsGroup: {{ cookiecutter.security_fsGroup }}
+{% if cookiecutter.security_runAsNonRoot == 'true' %}
+        runAsNonRoot: true
+{% endif %}
+{% if cookiecutter.serviceaccount_enabled == 'true' %}
+      serviceAccountName: {{ cookiecutter.app_name }}
+{% endif %}
+      restartPolicy: Always
+      volumes:
+{% if cookiecutter.persistence_enabled == 'true' %}
+        - name: secrets
+          persistentVolumeClaim:
+            claimName: "{{ cookiecutter.app_name }}"
+{% endif %}
+        - name: cache-volume
+          emptyDir: {}
+status: {}

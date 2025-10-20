@@ -1,0 +1,26 @@
+loadbalancer/
+k3s-nodes-shared
+shared
+external-secret-*.yaml
+external-secret-*.yml
+home*
+tesing-*.yaml
+.task/**/*
+
+# Trash
+.DS_Store
+Thumbs.db
+# k8s
+kubeconfig
+*.kubeconfig
+.decrypted~*.yaml
+.config.env
+*.agekey
+*.pub
+*.key
+# Ansible
+.venv*
+.env
+.vscode
+.mise/
+

@@ -1,0 +1,39 @@
+{% if cookiecutter.networkpolicy_enabled == 'true' %}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ cookiecutter.app_name }}
+  labels:
+    app: {{ cookiecutter.app_label }}
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ cookiecutter.app_label }}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: {{ cookiecutter.app_label }}
+    - namespaceSelector:
+        matchLabels:
+          name: {{ cookiecutter.namespace }}
+    ports:
+    - protocol: TCP
+      port: {{ cookiecutter.container_port }}
+  egress:
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+{% endif %}

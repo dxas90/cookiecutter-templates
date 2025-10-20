@@ -1,0 +1,22 @@
+{% if cookiecutter.httproute_enabled == 'true' %}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ cookiecutter.app_name }}
+  labels:
+    app: {{ cookiecutter.app_label }}
+spec:
+  parentRefs:
+  - name: {{ cookiecutter.httproute_gateway_name }}
+    namespace: {{ cookiecutter.httproute_gateway_namespace }}
+  hostnames:
+  - {{ cookiecutter.httproute_hostname }}
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: {{ cookiecutter.app_name }}
+      port: {{ cookiecutter.service_port }}
+{% endif %}
