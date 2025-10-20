@@ -28,6 +28,7 @@ httproute:
 persistence:
   enabled: {{ cookiecutter.persistence_enabled }}
   capacity: "{{ cookiecutter.persistence_capacity }}"
+  mountPath: "/data"
 
 autoscaling:
   enabled: {{ cookiecutter.autoscaling_enabled }}
