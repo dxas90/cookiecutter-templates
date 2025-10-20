@@ -12,5 +12,4 @@ spec:
     matchLabels: {}
   ingress:
     - {}
-
 {%- endraw -%}
