@@ -5,8 +5,7 @@ metadata:
 data:
   # Application configuration
   APP_NAME: {{ cookiecutter.app_name }}
-  APP_VERSION: {{ cookiecutter.app_version }}
-  PORT: "{{ cookiecutter.container_port }}"
+  EXTRA_DUMMY: VALUE
 
   # Environment-specific values will be added here
   # Add your configuration values below
