@@ -73,6 +73,14 @@ spec:
                 name: {{ cookiecutter.app_name }}-config
             - secretRef:
                 name: {{ cookiecutter.app_name }}-secret
+{% if cookiecutter.common_secret_enabled == 'true' %}
+            - secretRef:
+                name: {{ cookiecutter.common_secret_name }}
+{% endif %}
+{% if cookiecutter.common_settings_enabled == 'true' %}
+            - configMapRef:
+                name: {{ cookiecutter.common_settings_name }}
+{% endif %}
           image: {{ cookiecutter.image_repository }}:{{ cookiecutter.image_tag }}
           imagePullPolicy: {{ cookiecutter.image_pullPolicy }}
           ports:

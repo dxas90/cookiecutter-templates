@@ -61,6 +61,14 @@ spec:
                 name: {{ include "base.fullname" . }}-config
             - secretRef:
                 name: {{ include "base.fullname" . }}-secret
+{{- if .Values.common.secrets.enabled }}
+            - secretRef:
+                name: {{ .Values.common.secrets.name }}
+{{- end }}
+{{- if .Values.common.settings.enabled }}
+            - configMapRef:
+                name: {{ .Values.common.settings.name }}
+{{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

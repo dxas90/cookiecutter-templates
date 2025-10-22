@@ -88,6 +88,28 @@ Environment variables are automatically classified:
 - **ConfigMap**: Non-sensitive configuration (LOG_LEVEL, DEBUG)
 - **Secret**: Sensitive data containing keywords like KEY, SECRET, PASSWORD, TOKEN
 
+### Common Secrets and Settings
+
+You can reference existing cluster-wide Secrets and ConfigMaps to share common configuration across multiple applications:
+
+```bash
+# Enable common secret and settings
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/kustomize --no-input \
+  app_name=my-app \
+  common_secret_enabled=true \
+  common_secret_name=cluster-common-secrets \
+  common_settings_enabled=true \
+  common_settings_name=cluster-common-settings
+```
+
+This is useful for:
+- **Shared database credentials** across multiple microservices
+- **Common API keys** (e.g., monitoring, logging services)
+- **Cluster-wide configuration** (e.g., timezone, locale settings)
+- **Service mesh settings** shared by all applications
+
+The common Secret and ConfigMap must exist in the same namespace as your deployment.
+
 ## Configuration Options
 
 Key parameters in `cookiecutter.json`:
@@ -108,6 +130,10 @@ Key parameters in `cookiecutter.json`:
 | `autoscaling_enabled` | Enable HPA | false |
 | `networkpolicy_enabled` | Enable network policies | true |
 | `serviceaccount_enabled` | Enable service account | true |
+| `common_secret_enabled` | Enable common secret reference | false |
+| `common_secret_name` | Name of common secret | "common-secrets" |
+| `common_settings_enabled` | Enable common settings configmap | false |
+| `common_settings_name` | Name of common settings configmap | "common-settings" |
 
 ### Resource Configuration
 

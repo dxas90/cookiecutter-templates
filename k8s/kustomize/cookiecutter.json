@@ -26,7 +26,7 @@
 
   "autoscaling_enabled": false,
   "autoscaling_minReplicas": 1,
-  "autoscaling_maxReplicas": 100,
+  "autoscaling_maxReplicas": 10,
   "autoscaling_targetCPUUtilizationPercentage": 80,
 
   "resources_limits_cpu": "25m",
@@ -34,14 +34,14 @@
   "resources_requests_cpu": "25m",
   "resources_requests_memory": "263M",
 
-  "init_container_enabled": true,
+  "init_container_enabled": false,
   "init_container_image": "busybox",
   "init_container_resources_limits_cpu": "5m",
   "init_container_resources_limits_memory": "16Mi",
   "init_container_resources_requests_cpu": "5m",
   "init_container_resources_requests_memory": "16Mi",
 
-  "networkpolicy_enabled": true,
+  "networkpolicy_enabled": false,
   "poddisruptionbudget_enabled": true,
   "serviceaccount_enabled": true,
 
@@ -60,6 +60,11 @@
   "security_runAsNonRoot": true,
 
   "env_file_path": "",
+
+  "common_secret_enabled": false,
+  "common_secret_name": "common-secrets",
+  "common_settings_enabled": false,
+  "common_settings_name": "common-settings",
 
   "create_overlays": ["dev", "staging", "prod"]
 }

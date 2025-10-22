@@ -52,6 +52,15 @@ env:
   # if env_file_path is provided in cookiecutter.json
   variables: {}
 
+# Common secret and settings references
+common:
+  secrets:
+    enabled: {{ cookiecutter.common_secret_enabled }}
+    name: "{{ cookiecutter.common_secret_name }}"
+  settings:
+    enabled: {{ cookiecutter.common_settings_enabled }}
+    name: "{{ cookiecutter.common_settings_name }}"
+
 # Other values from the original chart are intentionally left as defaults.
 serviceAccount:
   create: true

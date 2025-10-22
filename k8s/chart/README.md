@@ -76,8 +76,34 @@ Key configuration parameters in `cookiecutter.json`:
 | `persistence_enabled` | Enable persistent storage | false |
 | `autoscaling_enabled` | Enable horizontal pod autoscaler | false |
 | `resources_limits_*` | CPU and memory limits | "1m", "56Mi" |
+| `common_secret_enabled` | Enable common secret reference | false |
+| `common_secret_name` | Name of common secret | "common-secrets" |
+| `common_settings_enabled` | Enable common settings configmap | false |
+| `common_settings_name` | Name of common settings configmap | "common-settings" |
 
 See `cookiecutter.json` for the complete list of configuration options.
+
+### Common Secrets and Settings
+
+You can reference existing cluster-wide Secrets and ConfigMaps to share common configuration across multiple applications:
+
+```bash
+# Enable common secret and settings
+cookiecutter gh:dxas90/cookiecutter-templates --directory=k8s/chart --no-input \
+  chart_name=my-app \
+  common_secret_enabled=true \
+  common_secret_name=cluster-common-secrets \
+  common_settings_enabled=true \
+  common_settings_name=cluster-common-settings
+```
+
+This is useful for:
+- **Shared database credentials** across multiple microservices
+- **Common API keys** (e.g., monitoring, logging services)
+- **Cluster-wide configuration** (e.g., timezone, locale settings)
+- **Service mesh settings** shared by all applications
+
+The common Secret and ConfigMap must exist in the same namespace as your deployment.
 
 ## Prerequisites
 

@@ -28,7 +28,7 @@
 
   "autoscaling_enabled": false,
   "autoscaling_minReplicas": 1,
-  "autoscaling_maxReplicas": 100,
+  "autoscaling_maxReplicas": 10,
 
   "resources_limits_cpu": "1m",
   "resources_limits_memory": "56Mi",
@@ -37,5 +37,10 @@
 
   "chart_label": "learn-chart",
 
-  "env_file_path": ""
+  "env_file_path": "",
+
+  "common_secret_enabled": false,
+  "common_secret_name": "common-secrets",
+  "common_settings_enabled": false,
+  "common_settings_name": "common-settings"
 }
