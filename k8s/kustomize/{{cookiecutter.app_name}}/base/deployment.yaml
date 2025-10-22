@@ -95,13 +95,18 @@ spec:
               cpu: {{ cookiecutter.resources_requests_cpu }}
               memory: {{ cookiecutter.resources_requests_memory }}
 {% if cookiecutter.healthcheck_enabled == 'true' %}
-          readinessProbe:
+          livenessProbe:
             httpGet:
               path: {{ cookiecutter.healthcheck_path }}
               port: {{ cookiecutter.healthcheck_port }}
             initialDelaySeconds: {{ cookiecutter.healthcheck_initialDelaySeconds }}
             timeoutSeconds: {{ cookiecutter.healthcheck_timeoutSeconds }}
             failureThreshold: {{ cookiecutter.healthcheck_failureThreshold }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ cookiecutter.healthcheck_port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
 {% endif %}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File

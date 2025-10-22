@@ -89,6 +89,6 @@ livenessProbe:
 
 readinessProbe:
   tcpSocket:
-    port: 8080
+    port: {{ cookiecutter.service_port }}
   initialDelaySeconds: 5
   periodSeconds: 10
