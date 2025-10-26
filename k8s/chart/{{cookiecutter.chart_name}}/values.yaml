@@ -8,6 +8,7 @@ image:
 service:
   type: "{{ cookiecutter.service_type }}"
   port: {{ cookiecutter.service_port }}
+  annotations: {}
 
 namespace: "{{ cookiecutter.namespace }}"
 
@@ -15,6 +16,11 @@ httproute:
   enabled: {{ cookiecutter.httproute_enabled }}
   gatewayName: "{{ cookiecutter.httproute_gateway_name }}"
   gatewayNamespace: "{{ cookiecutter.httproute_gateway_namespace }}"
+  sectionName: "{{ cookiecutter.httproute_gateway_sectionname }}"
+  annotations: {}
+    # external-dns.alpha.kubernetes.io/target: "gateway.example.com"
+  labels: {}
+    # use-cloudflare-solver: "true"
   hostnames:
     - "{{ cookiecutter.httproute_hostname }}"
   rules:
@@ -67,6 +73,9 @@ serviceAccount:
   automount: true
   annotations: {}
   name: ""
+
+# Added to the deployment spec template
+imagePullSecrets: []
 
 podSecurityContext:
   fsGroup: 65534

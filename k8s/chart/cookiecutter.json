@@ -21,6 +21,7 @@
   "httproute_enabled": false,
   "httproute_gateway_name": "gateway",
   "httproute_gateway_namespace": "gateway-system",
+  "httproute_gateway_sectionname": "http",
   "httproute_hostname": "example.local",
 
   "persistence_enabled": false,
