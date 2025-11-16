@@ -27,13 +27,12 @@
 
 {% endraw %}
 
-# Now add common labels but inject the cookiecutter chart label value directly
-app.kubernetes.io/part-of: "{{ cookiecutter.chart_label }}"
-
 {% raw %}
 {{- define "base.labels" -}}
 helm.sh/chart: {{ include "base.chart" . }}
 {{ include "base.selectorLabels" . }}
+# Now add common labels but inject the cookiecutter chart label value directly
+app.kubernetes.io/part-of: "{{ .Values.chart_label | default .Chart.Name }}"
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}

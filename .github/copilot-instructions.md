@@ -50,6 +50,9 @@ cookiecutter ./k8s/chart --no-input env_file_path=example.env
 helm lint /tmp/test-helm/learn
 helm template test /tmp/test-helm/learn
 
+# Helm unittest (after generation)
+cd /tmp/test-helm/learn && helm unittest .
+
 # Kustomize validation
 kubectl kustomize /tmp/test-kustomize/learn/overlays/prod
 ```
@@ -87,14 +90,14 @@ env_file_path = context.get('cookiecutter', {}).get('env_file_path')
 ```
 
 ### Template Dependencies
-- **Helm**: Go template helpers in `_helpers.tpl`
+- **Helm**: Go template helpers in `_helpers.tpl`, unittest tests templated with cookiecutter variables
 - **Kustomize**: Strategic merge patches for environment customization
 - **Both**: Common resource structure with different templating approaches
 
 ### External Dependencies
 - **Gateway API CRDs**: Required for HTTPRoute functionality
 - **cookiecutter**: Python package for template generation
-- **Optional**: helm-unittest for Helm chart testing
+- **helm-unittest**: For testing Helm chart templates with dynamic cookiecutter variables
 
 ## Critical Debugging
 
@@ -106,5 +109,3 @@ env_file_path = context.get('cookiecutter', {}).get('env_file_path')
 ### Resource Mounting Issues
 - **PVC errors**: Always check `persistence.enabled` before mounting volumes
 - **Common resources**: Verify `*_enabled` flags match actual resource existence
-
-When working with these templates, always test both Helm and Kustomize outputs and verify the generated YAML is valid for the target Kubernetes version.

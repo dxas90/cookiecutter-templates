@@ -10,6 +10,8 @@ service:
   port: {{ cookiecutter.service_port }}
   annotations: {}
 
+chart_label: "{{ cookiecutter.chart_label }}"
+
 namespace: "{{ cookiecutter.namespace }}"
 
 httproute:
@@ -97,7 +99,18 @@ livenessProbe:
   failureThreshold: 2
 
 readinessProbe:
-  tcpSocket:
-    port: {{ cookiecutter.service_port }}
-  initialDelaySeconds: 5
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 20
   periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 5
+
+volumeMounts:
+  - name: app-cache
+    mountPath: /var/cache/app
+
+volumes:
+  - name: app-cache
+    emptyDir: {}
